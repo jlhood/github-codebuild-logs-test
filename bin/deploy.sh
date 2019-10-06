@@ -35,3 +35,19 @@ sam deploy \
     --capabilities CAPABILITY_IAM \
     --parameter-overrides \
         CodeBuildProjectName=github-codebuild-logs-test-codebuild-oauth-failure
+
+sam deploy \
+    --template-file $TEMPLATE_PATH \
+    --stack-name github-codebuild-logs-test-oauth-param-success \
+    --capabilities CAPABILITY_IAM \
+    --parameter-overrides \
+        CodeBuildProjectName=github-codebuild-logs-test-oauth-param-success \
+        GitHubOAuthToken=$OAUTH_TOKEN
+
+sam deploy \
+    --template-file $TEMPLATE_PATH \
+    --stack-name github-codebuild-logs-test-oauth-param-failure \
+    --capabilities CAPABILITY_IAM \
+    --parameter-overrides \
+        CodeBuildProjectName=github-codebuild-logs-test-oauth-param-failure \
+        GitHubOAuthToken=$OAUTH_TOKEN
