@@ -14,7 +14,7 @@ usage() {
     exit 1
 }
 
-if [ "$#" != "2" ] ; then
+if [ $# -ne 2 ] ; then
     echo "Error: Wrong number of arguments" 1>&2
     usage
 fi
@@ -41,13 +41,15 @@ sam deploy \
     --stack-name github-codebuild-logs-test-oauth-param-success \
     --capabilities CAPABILITY_IAM \
     --parameter-overrides \
-        CodeBuildProjectName=github-codebuild-logs-test-oauth-param-success \
-        GitHubOAuthToken=$OAUTH_TOKEN
+        CodeBuildProjectName=github-codebuild-logs-test-oauth-param-success # \
+        # Uncomment on first deploy (stack creation)
+        # GitHubOAuthToken=$OAUTH_TOKEN
 
 sam deploy \
     --template-file $TEMPLATE_PATH \
     --stack-name github-codebuild-logs-test-oauth-param-failure \
     --capabilities CAPABILITY_IAM \
     --parameter-overrides \
-        CodeBuildProjectName=github-codebuild-logs-test-oauth-param-failure \
-        GitHubOAuthToken=$OAUTH_TOKEN
+        CodeBuildProjectName=github-codebuild-logs-test-oauth-param-failure # \
+        # Uncomment on first deploy (stack creation)
+        # GitHubOAuthToken=$OAUTH_TOKEN
