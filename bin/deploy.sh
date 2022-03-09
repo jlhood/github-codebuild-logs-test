@@ -27,29 +27,31 @@ sam deploy \
     --stack-name github-codebuild-logs-test-codebuild-oauth-success \
     --capabilities CAPABILITY_IAM \
     --parameter-overrides \
-        CodeBuildProjectName=github-codebuild-logs-test-codebuild-oauth-success
+        CodeBuildProjectName=github-codebuild-logs-test-codebuild-oauth-success \
+        LogLevel=DEBUG
 
 sam deploy \
     --template-file $TEMPLATE_PATH \
     --stack-name github-codebuild-logs-test-codebuild-oauth-failure \
     --capabilities CAPABILITY_IAM \
     --parameter-overrides \
-        CodeBuildProjectName=github-codebuild-logs-test-codebuild-oauth-failure
+        CodeBuildProjectName=github-codebuild-logs-test-codebuild-oauth-failure \
+        LogLevel=DEBUG
 
 sam deploy \
     --template-file $TEMPLATE_PATH \
     --stack-name github-codebuild-logs-test-oauth-param-success \
     --capabilities CAPABILITY_IAM \
     --parameter-overrides \
-        CodeBuildProjectName=github-codebuild-logs-test-oauth-param-success # \
-        # Uncomment on first deploy (stack creation)
-        # GitHubOAuthToken=$OAUTH_TOKEN
+        CodeBuildProjectName=github-codebuild-logs-test-oauth-param-success \
+        LogLevel=DEBUG \
+        GitHubOAuthToken=$OAUTH_TOKEN
 
 sam deploy \
     --template-file $TEMPLATE_PATH \
     --stack-name github-codebuild-logs-test-oauth-param-failure \
     --capabilities CAPABILITY_IAM \
     --parameter-overrides \
-        CodeBuildProjectName=github-codebuild-logs-test-oauth-param-failure # \
-        # Uncomment on first deploy (stack creation)
-        # GitHubOAuthToken=$OAUTH_TOKEN
+        CodeBuildProjectName=github-codebuild-logs-test-oauth-param-failure \
+        LogLevel=DEBUG \
+        GitHubOAuthToken=$OAUTH_TOKEN
