@@ -40,7 +40,7 @@ sam deploy \
 aws codebuild update-project \
     --profile $PROFILE \
     --name github-codebuild-logs-test-codebuild-oauth-failure \
-    --source '{"type":"GITHUB","location":"https://github.com/jlhood/github-codebuild-logs-test.git","gitCloneDepth":1,"buildspec":"buildspec-success.yml","auth":{"type":"OAUTH","resource":"'$OAUTH_TOKEN'"},"reportBuildStatus":true,"insecureSsl":false}'
+    --source '{"type":"GITHUB","location":"https://github.com/jlhood/github-codebuild-logs-test.git","gitCloneDepth":1,"buildspec":"buildspec-failure.yml","auth":{"type":"OAUTH","resource":"'$OAUTH_TOKEN'"},"reportBuildStatus":true,"insecureSsl":false}'
 
 sam deploy \
     --profile $PROFILE \
