@@ -10,19 +10,26 @@
 #
 
 usage() {
-    echo "Usage: deploy.sh <packaged app template path> <GitHub OAuth Token>" 1>&2
+    echo "Usage: deploy.sh <profile> <packaged app template path> <GitHub OAuth Token>" 1>&2
     exit 1
 }
 
-if [ $# -ne 2 ] ; then
+if [ $# -ne 3 ] ; then
     echo "Error: Wrong number of arguments" 1>&2
     usage
 fi
 
-TEMPLATE_PATH=$1
-OAUTH_TOKEN=$2
+PROFILE=$1
+TEMPLATE_PATH=$2
+OAUTH_TOKEN=$3
+
+aws codebuild update-project \
+    --profile $PROFILE \
+    --name github-codebuild-logs-test-codebuild-oauth-success \
+    --source '{"type":"GITHUB","location":"https://github.com/jlhood/github-codebuild-logs-test.git","gitCloneDepth":1,"buildspec":"buildspec-success.yml","auth":{"type":"OAUTH","resource":"'$OAUTH_TOKEN'"},"reportBuildStatus":true,"insecureSsl":false}'
 
 sam deploy \
+    --profile $PROFILE \
     --template-file $TEMPLATE_PATH \
     --stack-name github-codebuild-logs-test-codebuild-oauth-success \
     --capabilities CAPABILITY_IAM \
@@ -30,7 +37,13 @@ sam deploy \
         CodeBuildProjectName=github-codebuild-logs-test-codebuild-oauth-success \
         LogLevel=DEBUG
 
+aws codebuild update-project \
+    --profile $PROFILE \
+    --name github-codebuild-logs-test-codebuild-oauth-failure \
+    --source '{"type":"GITHUB","location":"https://github.com/jlhood/github-codebuild-logs-test.git","gitCloneDepth":1,"buildspec":"buildspec-failure.yml","auth":{"type":"OAUTH","resource":"'$OAUTH_TOKEN'"},"reportBuildStatus":true,"insecureSsl":false}'
+
 sam deploy \
+    --profile $PROFILE \
     --template-file $TEMPLATE_PATH \
     --stack-name github-codebuild-logs-test-codebuild-oauth-failure \
     --capabilities CAPABILITY_IAM \
@@ -39,6 +52,7 @@ sam deploy \
         LogLevel=DEBUG
 
 sam deploy \
+    --profile $PROFILE \
     --template-file $TEMPLATE_PATH \
     --stack-name github-codebuild-logs-test-oauth-param-success \
     --capabilities CAPABILITY_IAM \
@@ -48,6 +62,7 @@ sam deploy \
         GitHubOAuthToken=$OAUTH_TOKEN
 
 sam deploy \
+    --profile $PROFILE \
     --template-file $TEMPLATE_PATH \
     --stack-name github-codebuild-logs-test-oauth-param-failure \
     --capabilities CAPABILITY_IAM \
